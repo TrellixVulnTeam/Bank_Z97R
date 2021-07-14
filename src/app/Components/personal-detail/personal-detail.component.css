@@ -1,0 +1,82 @@
+.title{
+    position: absolute;
+    top: 40%;
+    right: 0px;
+    padding: 10px;
+  }
+  
+  h1{
+    font-size: xx-large;
+  }
+  .form{
+    position: absolute;
+    bottom: 10%;
+    right: 0px;
+    padding: 10px;
+  }
+  
+  .row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    
+  .column {
+      display: flex;
+      flex-direction: column;
+    }
+  
+  input{
+      border: none;
+      width: 15vw;
+      height: 5vh;
+      text-align: right;
+      margin: 5px;
+  }
+  
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black;
+    font-weight: bold;
+    opacity: 1; /* Firefox */
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: black;
+    font-weight: bold;
+  }
+  
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: black;
+    font-weight: bold;
+  }
+  
+  mat-error{
+    text-align: right;
+    font-weight: bold;
+  }
+  
+  .next{
+    position:absolute;
+    bottom: 5%;
+    left: 10%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .next-btn{
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    display: flex;
+    flex-direction: column;
+  }
+  .image-next{
+    transform: rotate(180deg);
+    width: 90px;
+    height: 90px;
+    vertical-align: middle;
+  }

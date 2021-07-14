@@ -1,0 +1,55 @@
+
+<body [ngStyle]= "{
+  'background-image': 'url(' + background + ')',
+  'width': '100vw',
+  'height': '100vh',
+  'background-repeat': 'no-repeat',
+  'background-attachment': 'fixed'    
+}">
+
+<div class="back">
+  <button class="btn-back" (click)="back()">
+    <img class="image-back" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Back_Arrow.svg/768px-Back_Arrow.svg.png" alt="">
+  </button>
+</div>
+
+  <div class= "title">
+  <h1>
+    אנא מלאו את פרטי החשבונות
+    <br>
+       של חברת " {{ companyName }} "
+  </h1>
+  <h2> ח.פ {{ companyNumber }}</h2>
+  </div>
+
+  <div class="container">
+    <form [formGroup]="bankAccountForm">
+        <div *ngFor="let bank of bankAccounts.controls; let i=index" formArrayName="bankDetail">
+          <div class="form-container" [formGroupName]="i">
+
+            <div>
+              <select class="filed" name="bankName" id="bankName" (change)="bankNameChange($event, i)" >
+                <option *ngFor="let name of banksName" [selected]="isSelected(name, i)" [value]="name">{{ name }}</option>
+              </select>
+              <span class="filed" >בנק</span>
+           </div>
+
+          <div>
+            <input type="text" formControlName="bankBranch" class="filed input-3">
+            <span class="filed" >סניף</span>
+          </div>
+
+          <div>
+            <input type="text" formControlName="accountNumber" class="filed">
+            <span class="filed">חשבון</span>
+          </div>
+
+            <button class="remove" (click)="removeBank(i)">הסר-</button>
+
+          </div>
+        </div>
+
+        <button type="button" class="add" (click)="addBankIntoForm()">הוסף חשבון +</button>
+    </form>
+  </div>
+</body>

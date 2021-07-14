@@ -1,0 +1,20 @@
+<div class="container">
+
+    <div class="title">
+        <h1> התחברות </h1>
+    </div>
+
+    <form [formGroup]="loginFormGroup" (ngSubmit)="login()">
+        <mat-error *ngIf="loginFormGroup.errors"> שם משתמש או סיסמה אינם נכונים</mat-error>
+
+        <label for=id>תעודת זהות</label>
+        <input name= id type="text"  formControlName="id">
+
+        <label for=password>סיסמה</label>
+        <input name= password type="password"  formControlName="password">
+
+        <button type="submit">התחבר</button>
+
+    </form>
+</div>
+

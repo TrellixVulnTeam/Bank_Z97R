@@ -1,0 +1,72 @@
+<body>
+<div class="container">
+
+    <div class="title">
+        <h1> אנא השלימו את הפרטים הבאים</h1>
+    </div>
+
+    <div>
+        <form [formGroup]="personalDetailsForm" (ngSubmit)="onSubmit()" class="form">
+            <div class="column">
+                <mat-error *ngIf="personalDetailsForm.errors">
+                 נדרש למלא את כל השדות (מספר טלפון אופציונאלי)
+                </mat-error>
+            </div>
+            <div class="column">
+                <div class="row"> 
+                    <div class="column">
+                        <input matInput id="familyName"type="text"placeholder=":שם משפחה" formControlName="familyName"/>
+                        <mat-error *ngIf="familyName?.touched && familyName?.invalid"> .נדרש להזין שם משפחה </mat-error>  
+                    </div>
+                    <div class="column">
+                        <input matInput id="firstName" type="text"placeholder=":שם פרטי" formControlName="firstName"/>
+                        <mat-error *ngIf="firstName?.touched && firstName?.invalid"> .נדרש להזין שם פרטי </mat-error>  
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <input matInput id="birthday" type="text" onfocus="(this.type='date')" placeholder=":תאריך לידה" formControlName="birthday"/>
+                        <mat-error *ngIf="birthday?.touched && birthday?.invalid"> .נדרש להזין תאריך לידה </mat-error>  
+                    </div>
+                    <div class="column">
+                        <input matInput id="id" type="text" placeholder=":תעודת זהות" formControlName="id"/>
+                        <mat-error *ngIf="id?.touched && id?.invalid"> .נדרש להזין תעודת זהות </mat-error> 
+                    </div>  
+                </div>
+
+                <div class="row">
+                    <div class="column">
+                        <input matInput id="email" type="email" placeholder=":דואר אלקטרוני" formControlName="email"/>
+                        <mat-error *ngIf="email?.touched && email?.invalid"> .נדרש להזין דואר אלקטרוני </mat-error>  
+                    </div>
+
+                    <div class="column">
+                        <input matInput id="phoneNumber" type="tel" placeholder=":טלפון" formControlName="phoneNumber"/>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="column">
+                        <input matInput id="companyNumber" type="text" placeholder=":ח.פ/שותפות/עמותה" formControlName="companyNumber"/>
+                        <mat-error *ngIf="companyNumber?.touched && companyNumber?.invalid"> . נדרש להזין ח.פ/שותפות/עמותה </mat-error>  
+                    </div>
+                    <div class="column">
+                        <input matInput id="companyName" type="text" placeholder=":שם העסק" formControlName="companyName"/>
+                         <mat-error *ngIf="companyName?.touched && companyName?.invalid"> .נדרש להזין את שם העסק </mat-error>   
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="next">
+            <button class="next-btn" (click)="onSubmit()">
+                <img class="image-next" src="https://banner2.cleanpng.com/20180414/skw/kisspng-computer-icons-next-button-5ad1fed5d2ae06.712080031523711701863.jpg" alt="">
+                <h2>המשך</h2>
+            </button>
+        </div>
+
+    </div>
+</div>
+</body>
