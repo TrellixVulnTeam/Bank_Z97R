@@ -11,6 +11,10 @@ export class PersonalDetailService {
 
   constructor(private http: HttpClient, private apiRoute: ApiRoutesService) { }
 
+  public getUserById(userId: string){
+    return this.http.get<User>(this.apiRoute.getUserById(userId));
+  }
+
   public update(userInfo: updatePersonalDetailsRequest){
       return this.http.put(this.apiRoute.updatePersonalDetail(userInfo.id), userInfo);
   }

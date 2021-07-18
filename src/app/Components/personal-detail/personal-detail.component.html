@@ -8,9 +8,10 @@
     <div>
         <form [formGroup]="personalDetailsForm" (ngSubmit)="onSubmit()" class="form">
             <div class="column">
-                <mat-error *ngIf="personalDetailsForm.errors">
-                 נדרש למלא את כל השדות (מספר טלפון אופציונאלי)
-                </mat-error>
+                <mat-error *ngIf="personalDetailsForm.errors?.invalidForm"> נדרש למלא את כל השדות (מספר טלפון אופציונאלי)</mat-error>
+                <mat-error *ngIf="personalDetailsForm.errors?.serverNotAvailable"> השרת אינו פעיל כעט </mat-error>
+                <mat-error *ngIf="personalDetailsForm.errors?.incorrectValues"> חלק מהשדות אנים נכונים </mat-error>
+                
             </div>
             <div class="column">
                 <div class="row"> 

@@ -5,7 +5,8 @@
     </div>
 
     <form [formGroup]="loginFormGroup" (ngSubmit)="login()">
-        <mat-error *ngIf="loginFormGroup.errors"> שם משתמש או סיסמה אינם נכונים</mat-error>
+        <mat-error *ngIf="loginFormGroup.errors?.invalidLogin"> שם משתמש או סיסמה אינם נכונים</mat-error>
+        <mat-error *ngIf="loginFormGroup.errors?.serverNotAvailable"> השרת אינו פעיל כעט</mat-error>
 
         <label for=id>תעודת זהות</label>
         <input name= id type="text"  formControlName="id">

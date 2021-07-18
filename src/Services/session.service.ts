@@ -1,3 +1,4 @@
+import { JsonpClientBackend } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from 'src/Models/User';
 
@@ -8,14 +9,19 @@ export class SessionService {
 
   constructor() { }
 
-  _user: User | undefined;
-  
   public set user(user : User | undefined) {
-    this._user = user;
+    if(user){
+      sessionStorage.setItem('user-info', JSON.stringify(user));
+    }
   }
 
-  public get user() : User | undefined{
-    return this._user;
+  public get user() : User | undefined {
+      let userJson = sessionStorage.getItem('user-info');
+      
+      if(userJson)
+        return JSON.parse(userJson) as User;
+
+      return undefined;
   }
    
 }

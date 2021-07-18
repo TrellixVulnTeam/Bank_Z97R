@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { updatePersonalDetailsRequest } from 'src/Contracts/updatePersonalDetailsRequest';
 import { PersonalDetailService } from 'src/Services/personal-detail.service';
 import { SessionService } from 'src/Services/session.service';
+import jwtDecode from 'jwt-decode';
+import { User } from 'src/Models/User';
+import { AuthService } from 'src/Services/auth-service.service';
 
 @Component({
   selector: 'app-personal-detail',
@@ -24,34 +27,64 @@ export class PersonalDetailComponent implements OnInit {
     phoneNumber: ['']
   });
 
-  constructor(private formBuilder : FormBuilder, private session:SessionService, private router:Router, private personalDetailsService: PersonalDetailService) { }
+  constructor(private formBuilder : FormBuilder, private session:SessionService, private router:Router, private personalDetailsService: PersonalDetailService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.firstName?.setValue(this.session._user?.firstName);
-    this.familyName?.setValue(this.session._user?.familyName);
-    this.id?.setValue(this.session._user?.id);
-    this.birthday?.setValue(this.session._user?.birthday);
-    this.phoneNumber?.setValue(this.session._user?.phoneNumber);
-    this.email?.setValue(this.session._user?.email);
-    this.companyName?.setValue(this.session._user?.companyName);
-    this.companyNumber?.setValue(this.session._user?.companyNumber);
-
+    if(!this.session.user)
+      this.fetchUserInfo();
+    if(this.session.user)
+       this.initializeComponent(this.session.user);
   }
 
+  initializeComponent(user: User){
+    this.firstName?.setValue(user.firstName);
+    this.familyName?.setValue(user.familyName);
+    this.id?.setValue(user.id);
+    this.birthday?.setValue(user.birthday);
+    this.phoneNumber?.setValue(user.phoneNumber);
+    this.email?.setValue(user.email);
+    this.companyName?.setValue(user.companyName);
+    this.companyNumber?.setValue(user.companyNumber);
+  }
+
+  fetchUserInfo() : void{
+    // fetch information form api server 
+      const token = this.authService.getToken();
+    
+      if(token){
+        const decodedJwt: any = jwtDecode(token);
+        const userId = decodedJwt.id;
   
+        this.personalDetailsService.getUserById(userId).subscribe(res => {
+          if(res){
+            console.log(res);
+            this.session.user = res;
+            this.initializeComponent(res);
+          }
+          
+        }, err =>{console.log(err)});
+      } 
+  }
+
   onSubmit(){
 
     let request: updatePersonalDetailsRequest = this.personalDetailsForm.value;
-    console.log(this.companyNumber?.value);
 
     if(this.personalDetailsForm.valid){
       this.personalDetailsService.update(request).subscribe(res =>{
+        console.log(res);
         this.updateSession();
         this.router.navigateByUrl('/bank-detail');
       }, err => {
-        this.personalDetailsForm.setErrors({
-          invalidForm: true
-        });
+        if(err.status === 400)
+          this.personalDetailsForm.setErrors({
+            IncorrectValues: true
+          });
+        else{
+          this.personalDetailsForm.setErrors({
+            serverNotAvailable: true
+          });
+        }
       });     
     }else{
       this.personalDetailsForm.setErrors({

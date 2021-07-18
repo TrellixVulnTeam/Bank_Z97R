@@ -3,8 +3,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginCredentials } from 'src/Models/LoginCredentials';
 import { LoginResponse } from 'src/Models/LoginResponse';
+import { AuthService } from 'src/Services/auth-service.service';
 import { LoginService } from 'src/Services/LoginService';
-import { SessionService } from 'src/Services/session.service';
+
 
 @Component({
   selector: 'app-login',
@@ -23,14 +24,7 @@ export class LoginComponent implements OnInit {
   imagePath: any;
   loginResponse: LoginResponse | undefined;
   
-  constructor(private formBuilder : FormBuilder, private service: LoginService, private router: Router, private session: SessionService) { }
-  
-  get id(){
-    return this.loginFormGroup.get('id');
-  }
-
-  get password(){
-    return this.loginFormGroup.get('password');
+  constructor(private formBuilder : FormBuilder, private service: LoginService, private router: Router, private authService : AuthService) { 
   }
 
   ngOnInit(): void {}
@@ -41,23 +35,38 @@ export class LoginComponent implements OnInit {
 
   login(): void{
 
-    const loginCredentials : LoginCredentials = {
-      id: this.id?.value,
-      password: this.password?.value,
-    };
-
-    this.service.login(loginCredentials).subscribe(response =>{
-        if(response.success){
-          console.log(response.user);
-          this.session._user = response.user;
-          this.router.navigateByUrl('/personal-detail');
-        }
+    this.service.login(this.loginCredentials).subscribe((response : any) =>{
+      console.log(response);
+      if(response){
+          this.authService.setToken(response.token);
+          this.router.navigateByUrl('/personal-detail')}
       }
     , (err : Response) => {
+      console.log(err);
+        if(err.status === 400)
           this.loginFormGroup.setErrors({
             invalidLogin: true
           })
+        else{
+          this.loginFormGroup.setErrors({
+            serverNotAvailable: true
+        })}
     });
+  }
+
+  get id(){
+    return this.loginFormGroup.get('id');
+  }
+
+  get password(){
+    return this.loginFormGroup.get('password');
+  }
+
+  get loginCredentials() : LoginCredentials{
+    return {
+      id: this.id?.value,
+      password: this.password?.value,
+    };
   }
 
 }

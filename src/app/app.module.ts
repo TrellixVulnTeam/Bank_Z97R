@@ -8,7 +8,7 @@ import { BankDetailComponent } from './Components/bank-detail/bank-detail.compon
 import { PersonalDetailComponent } from './Components/personal-detail/personal-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from 'src/Services/LoginService';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiRoutesService } from 'src/Services/apiRoutesService';
 import { SessionService } from 'src/Services/session.service';
 
@@ -18,6 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { PersonalDetailService } from 'src/Services/personal-detail.service';
 import { BankAccountService } from 'src/Services/bank-account.service';
+import { AuthService } from 'src/Services/auth-service.service';
+import { TokenInterceptor } from 'src/Interceptors/token-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,19 @@ import { BankAccountService } from 'src/Services/bank-account.service';
     BrowserAnimationsModule,
     MatInputModule
   ],
-  providers: [LoginService, ApiRoutesService, SessionService, PersonalDetailService, BankAccountService],
+  providers: [
+    LoginService,
+     ApiRoutesService,
+      SessionService, 
+      PersonalDetailService,
+       BankAccountService, 
+       AuthService,
+       {
+        provide: HTTP_INTERCEPTORS,
+        useClass: TokenInterceptor,
+        multi: true
+      }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

@@ -8,7 +8,7 @@
 }">
 
 <div class="back">
-  <button class="btn-back" (click)="back()">
+  <button class="btn-back" (click)="onBackClicked()">
     <img class="image-back" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Back_Arrow.svg/768px-Back_Arrow.svg.png" alt="">
   </button>
 </div>
@@ -29,7 +29,7 @@
 
             <div>
               <select class="filed" name="bankName" id="bankName" (change)="bankNameChange($event, i)" >
-                <option *ngFor="let name of banksName" [selected]="isSelected(name, i)" [value]="name">{{ name }}</option>
+                <option *ngFor="let name of banksName" [selected]="bankNameSelected(name, i)" [value]="name">{{ name }}</option>
               </select>
               <span class="filed" >בנק</span>
            </div>
@@ -44,12 +44,12 @@
             <span class="filed">חשבון</span>
           </div>
 
-            <button class="remove" (click)="removeBank(i)">הסר-</button>
+            <button class="remove" (click)="removeAccount(i)">הסר-</button>
 
           </div>
         </div>
 
-        <button type="button" class="add" (click)="addBankIntoForm()">הוסף חשבון +</button>
+        <button type="button" class="add" (click)="addAccountIntoBankForm()">הוסף חשבון +</button>
     </form>
   </div>
 </body>

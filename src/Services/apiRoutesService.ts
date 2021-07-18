@@ -9,6 +9,10 @@ export class ApiRoutesService{
         return this.baseUrl + '/identity/login';
     }
 
+    getUserById(userId : string) : string{
+        return this.baseUrl + '/user/'+ userId;
+    }
+
     updatePersonalDetail(userId: string) : string{
         return this.baseUrl + '/user/'+ userId;
     }
